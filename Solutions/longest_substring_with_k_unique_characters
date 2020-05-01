@@ -1,0 +1,59 @@
+#include<bits/stdc++.h>
+using namespace  std;
+
+void kUniques(string s, int k)
+{
+    int u = 0; // number of unique characters
+    int n = s.length();
+
+    // Associative array to store the count of characters
+    map<char,int> mp;
+    multimap<int,char,greater<int>>mp2;
+    // Traverse the string, Fills the associative array
+    // count[] and count number of unique characters
+    for(int i=0;i<26;i++)
+    {
+        mp.insert({'a'+i,0});
+    }
+
+    for (int i=0; i<s.length(); i++)
+    {
+        mp.insert({s[i],mp[s[i]]++});
+    }
+    int unique_element=0;
+    for(auto it=mp.begin();it!=mp.end();it++)
+    {      if(it->second>0){
+            unique_element++;}
+    }
+    // If there are not enough unique characters, show
+    // an error message.
+    if(unique_element<k)
+    {
+        cout << "Not enough unique characters";
+        return;
+    }
+
+
+    string ans="";
+    int j=0;
+    for(auto it=mp.begin();it!=mp.end();it++)
+    {       mp2.insert({it->second,it->first});
+    }
+
+    for(auto it=mp2.begin();it!=mp2.end()&&j<k;it++,j++)
+    {    ans=ans+string(it->first,it->second);
+    }
+
+
+    cout << "Max sustring is : "
+         << ans
+         << " with length " << ans.length() << endl;
+}
+
+int main()
+{
+    string s = "aabacbebebe";
+    int k = 3;
+    kUniques(s, k);
+    return 0;
+}
